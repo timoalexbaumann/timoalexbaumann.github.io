@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mein Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MINI-STYLE nur für den neuen Hero-Titel -->
+    <style>
+      .hero-title {
+        position: fixed;
+        top: var(--navbar-h);
+        left: var(--outer-gap);
+        right: var(--outer-gap);
+        height: calc(100vh - var(--navbar-h) - var(--row-h));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font);
+        font-weight: 700;
+        font-size: 25vw; /* kleiner für mobile Geräte */
+        line-height: 0.75;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: #000;
+        transform-origin: center center;
+        z-index: 1; /* über Bild (-1), unter Caption (2) */
+        pointer-events: none;
+      }
+
+      /* Desktop: größerer Titel */
+      @media (min-width: 768px) {
+        .hero-title {
+          font-size: 35vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <span id="projekt-name-fixed" class="visually-hidden"></span>
+
+    <div class="navbar-spacer"></div>
+    <div class="hero-lines"></div>
+
+    <nav class="navbar">
+      <div class="nav-left">
+        <!-- NEU: dieser Link führt zum Kontakt -->
+        <a href="#kontakt" id="nav-info" data-hover="Information"
+          >timo baumann</a
+        >
+      </div>
+
+      <div class="nav-center">
+        <span class="nav-projekte">
+          <span id="projekt-name-nav"></span>
+        </span>
+        <img src="media/Pfeil_Nav.svg" alt="Pfeil" class="navbar-arrow" />
+      </div>
+
+      <div class="nav-right">
+        <button
+          id="close-detail"
+          aria-label="Detailansicht schliessen"
+          title="Schliessen"
+          style="display: none"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            width="1.2rem"
+            height="1.2rem"
+          >
+            <line
+              x1="4"
+              y1="4"
+              x2="20"
+              y2="20"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="square"
+            />
+            <line
+              x1="20"
+              y1="4"
+              x2="4"
+              y2="20"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <script>
+      // Navbar-Pfeil wie ursprünglich animieren: Drehen nur ganz unten
+      const navbarArrow = document.querySelector(".navbar-arrow");
+      function updateArrowRotation() {
+        if (!navbarArrow) return;
+        const doc = document.documentElement;
+        const atBottom =
+          window.innerHeight + window.scrollY >= doc.scrollHeight - 1;
+        if (atBottom) {
+          navbarArrow.classList.add("rotate");
+        } else {
+          navbarArrow.classList.remove("rotate");
+        }
+      }
+      window.addEventListener("scroll", updateArrowRotation, { passive: true });
+      window.addEventListener("resize", updateArrowRotation);
+      document.addEventListener("DOMContentLoaded", updateArrowRotation);
+    </script>
+
+    <main>
+      <!-- Startseite -->
+      <section id="startseite" class="section">
+        <div class="hero-box">
+          <img
+            src="media/Portfolio2.svg"
+            alt="PORTFOLIO"
+            class="hero-title-img"
+          />
+
+          <!-- <img src="media/Platzhalter.jpg" alt="Hero Bild" class="hero-image" /> -->
+          <div class="hero-title-bg"></div>
+
+          <div class="hero-caption">
+            <span>Portfolio</span>
+            <span>10.2025</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projekte (Übersicht) -->
+      <section id="projekte" class="section">
+        <div class="projekt-grid">
+          <div
+            class="projekt-item"
+            data-id="urnengang"
+            data-title="Urnengang seit 1848 – Ein visueller Zugang zu den Daten der direkten Demokratie"
+          >
+            <img src="media/01_Urnengang.jpg" alt="Projekt 1" />
+            <p class="projekt-titel">Urnengang</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="id-tree-1"
+            data-title="Eine Gewöhnliche Fichte in Davos. Picea Abies – ID (Tree) 1"
+          >
+            <img src="media/02_Fichte.png" alt="Projekt 2" />
+            <p class="projekt-titel">ID (Tree) 1</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="hunger"
+            data-title="Hunger. Critical Zone – Protest, Produkt und Publikum."
+          >
+            <img src="media/03_Hunger.jpg" alt="Projekt 3" loading="lazy" />
+            <p class="projekt-titel">Hunger</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="cloudy-vision"
+            data-title="Cloudy Vision"
+          >
+            <img
+              src="media/04_CloudyVision.jpg"
+              alt="Projekt 4"
+              loading="lazy"
+            />
+            <p class="projekt-titel">Cloudy Vision</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="art-dichte"
+            data-title="Art & Dichte - Wald im Vergleich"
+          >
+            <img src="media/05_Wald.gif" alt="Projekt 5" loading="lazy" />
+            <p class="projekt-titel">Art & Dichte</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="alpines-wohnen"
+            data-title="Künstlerische Feldforschung «alpines Wohnen» Andermatt"
+          >
+            <img src="media/06_Andermatt.jpg" alt="Projekt 6" loading="lazy" />
+            <p class="projekt-titel">Alpines Wohnen</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="sei-kein-jein"
+            data-title="sei kein jein"
+          >
+            <img src="media/07_KeinJein.jpg" alt="Projekt 8" loading="lazy" />
+            <p class="projekt-titel">sei kein jein</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="handball"
+            data-title="Meine Handball-Schussstatistik"
+          >
+            <img src="media/08_Handball.jpg" alt="Projekt 9" loading="lazy" />
+            <p class="projekt-titel">Handball</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="textilrevue"
+            data-title="Textilrevue Mode-Fachzeitschrift B2B"
+          >
+            <img
+              src="media/09_Textilrevue.jpg"
+              alt="Projekt 9"
+              loading="lazy"
+            />
+            <p class="projekt-titel">Textilrevue</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="simpel-things"
+            data-title="Simpel Things"
+          >
+            <img
+              src="media/10_SimpelThings.jpg"
+              alt="Projekt 10"
+              loading="lazy"
+            />
+            <p class="projekt-titel">Simpel Things</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="corporate"
+            data-title="Corporate Magazine B2B und B2C"
+          >
+            <img src="media/11_Corporate.jpg" alt="Projekt 12" loading="lazy" />
+            <p class="projekt-titel">Corporate Magazine</p>
+          </div>
+
+          <div
+            class="projekt-item"
+            data-id="wohnrevue"
+            data-title="Wohnrevue Interior Design Fachzeitschrift B2C"
+          >
+            <img src="media/12_Wohnrevue.jpg" alt="Projekt 13" loading="lazy" />
+            <p class="projekt-titel">Wohnrevue</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kontakt -->
+      <section id="kontakt" class="projekt-footer section">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <div class="about-inner">
+              <p>Timo Baumann (geb. 1997) ist Grafiker aus Luzern.</p>
+              <br />
+
+              <p>
+                Das Handwerk der Schwarzkunst erlernte er in der Vorstufe einer
+                Offsetdruckerei, mit Abschluss als Polygraf EFZ (2012–2016). Als
+                Grafiker in einer Redaktion (2018–2020) spezialisierte er sich
+                auf Layoutgestaltung und übernahm schliesslich die grafische
+                Hauptverantwortung über mehrere Printmagazine (2020–2022). Ein
+                Bachelorstudium in Visueller Kommunikation mit Vertiefung Data
+                Design + Art an der HSLU DFK (2022–2025) erweiterte das
+                technische Können und öffnete neue Wege in digitalen Medien und
+                datenbasierten Erzählformen.
+              </p>
+              <p>
+                Neben seiner gestalterischen Tätigkeit erweiterte er sein
+                Repertoire in verschiedenen Bereichen, darunter als Schneeräumer
+                (2017), Kaffeebrüher (2023) und Velokurier (2024–2025).
+              </p>
+              <br />
+
+              <p>
+                Durch seine Erfahrung entlang der gesamten gestalterischen
+                Wertschöpfungskette versteht er, wie Ideen zu Skizzen zu Bildern
+                zu Produkten werden. Diese Einsicht erleichtert die Arbeit an
+                verschiedenen Stationen und fördert die Kommunikation zwischen
+                Disziplinen und Beteiligten. Er arbeitet interdisziplinär und
+                verbindet Handwerk, Konzept und Form zu klarer Gestaltung.
+              </p>
+              <br />
+
+              <p>
+                Für Austausch, Zusammenarbeit oder einen detaillierten CV gerne
+                per Mail kontaktieren.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-caption">
+            <span class="caption-arrow mail-arrow" aria-hidden="true"></span>
+
+            <a
+              href="mailto:timoalexbaumann@gmail.com"
+              class="contact-link"
+              data-email="timoalexbaumann@gmail.com"
+              >Kontakt</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Projekt-Detail -->
+      <section id="projekt-detail" class="section hidden">
+        <div id="projekt-inhalt"></div>
+        <span id="detail-counter" aria-hidden="true"></span>
+      </section>
+    </main>
+
+    <script>
+      const projektDaten = {
+        urnengang: {
+          untertitel:
+            "BA-Abschlussarbeit: Projektionsinstallation und Datenvisualisierung (2025 HSLU DFK BA DD+A)",
+          text: 'Direkte Demokratie zählt Stimmen. Die Mehrheit entscheidet, auch wenn sie eine Minderheit ist. Volksabstimmungen formen die Schweiz. Stimmst du ab – oder wird für dich mitbestimmt? Jeder Urnengang seit 1848 ist Teil einer stetig wachsenden Datensammlung. Eine datenbasierte Projektion macht politische Partizipation und Ausgrenzung sichtbar, lässt durch vergangene Debatten navigieren, in denen – wie heute – eine Plakatflut mit grossen JA und NEIN um die Mehrheit warb. Wer vergangene Vorlagen betrachtet, erkennt, dass Demokratie ständige Aufmerksamkeit verlangt und früher sicher nicht alles besser war. \n\nMentorin: Fabienne Burri\n\nFoto 2/3/4/5/6 von Matthias Pfammatter\n\n<span style="color: red;">Ausgezeichnet mit dem Förderpreis ST.ART – Nachwuchsförderpreis Kultur – DESIGN FILM KUNST des Kantons Luzern</span>',
+          bilder: [
+            "media/01_Bild_1.jpg",
+            "media/01_Bild_2.jpg",
+            "media/01_Bild_3.jpg",
+            "media/01_Bild_4.jpg",
+            "media/01_Bild_5.jpg",
+            "media/01_Bild_6.jpg",
+            "media/01_Bild_7.jpg",
+            "media/01_Bild_8.jpg",
+            "media/01_Bild_9.gif",
+            "media/01_Bild_10.png",
+            "media/01_Bild_11.png",
+            "media/01_Bild_12.png",
+            "media/01_Bild_13.png",
+            "media/01_Bild_14.jpg",
+            "media/01_Bild_15.jpg",
+            "media/01_Bild_16.jpg",
+            "media/01_Bild_17.jpg",
+            "media/01_Bild_18.jpg",
+            "media/01_Bild_19.jpg",
+            "media/01_Bild_20.jpg",
+            "media/01_Bild_21.jpg",
+          ],
+        },
+        "id-tree-1": {
+          untertitel:
+            "Dateninstallation mit Infografik, Datenskulptur und VR-Welt (2023 HSLU DFK BA DD+A)",
+          text: "Wald bedeckt ein Drittel der Schweizer Landesfläche, er bildet ein komplexes Ökosystem aus über 500 Millionen Bäumen. Ein Gebilde mit Milliarden von Verästelungen, das sowohl für den Menschen als auch für die Tierwelt eine wichtige Lebensgrundlage darstellt. Der Wald ist für den Menschen wichtig, weil er zur Luftreinigung beiträgt, Kohlendioxid absorbiert und Sauerstoff produziert sowie den Wasserkreislauf reguliert. Weiter wäre die Welt ein schlechterer Ort, wenn wir nicht mehr im Wald spazieren gehen könnten. Ein Exemplar aus dem Bestand der Fichte kann uns die Geschichte seines Lebens erzählen.\n\nZusammenarbeit: Lukas Frauenfelder\n\nMentor:innen: Pascal Berger, Petra Hasler, Andreas Tanner",
+          bilder: [
+            "media/02_Bild_1.jpg",
+            "media/02_Bild_2.jpg",
+            "media/02_Bild_3.jpg",
+            "media/02_Bild_4.jpg",
+            "media/02_Bild_5.jpg",
+            "media/02_Bild_6.jpg",
+            "media/02_Bild_7.jpg",
+            "media/02_Bild_8.jpg",
+            "media/02_Bild_9.png",
+            "media/02_Bild_10.png",
+            "media/02_Bild_11.png",
+            "media/02_Bild_12.jpg",
+            "media/02_Bild_13.jpg",
+            "media/02_Bild_14.png",
+            "media/02_Bild_15.png",
+            "media/02_Bild_16.png",
+            "media/02_Bild_17.png",
+            "media/02_Bild_18.jpg",
+            "media/02_Bild_19.jpg",
+            "media/02_Bild_20.jpg",
+            "media/02_Bild_21.jpg",
+          ],
+        },
+        hunger: {
+          untertitel: "Illustration und Installation (2024 HSLU DFK BA)",
+          text: "Hunger ist eine Folge von Armut und damit von Luxus. Es geht um die Ungerechtigkeit in der Welt. Der Hunger der einen verstärkt den Hunger der anderen. \n\nHunger ist Gier. Erdbeeren im Winter. Eine schnelle Karre fahren. Hunger ist das Gegenteil von satt sein. Satt sein heisst genug haben. Ich bin hungrig, weil ich mehr haben will. Ich bin hungrig, weil ich zu wenig habe. Ich bin hungrig, weil ich mehr haben will. Bomben «Made in Switzerland» lassen andere unseren Hunger spüren. Wir brauchen Kampfjets, um unser Buffet zu schützen. Hunger nach Ausverkauf. Hunger nach dem nächsten Deal. Swissness ist mir wichtig. Ich mag Kühe vor einer Bergkulisse. Ich mag Steak auf dem Teller. \n\nKrawattenträger produzieren und liefern Stoff. Konsum macht süchtig. Mein Hunger wächst mit jedem Paket. Menschen verhungern. Sexualisierte Körper fordern täglich meine Aufmerksamkeit. Kauf dich glücklich. «Sex sells» auch diese Arbeit. In der Schweiz Hummer zu bestellen ist für Arme. en guete!\n\nZusammenarbeit: Noelia Giger, Jil Reutter",
+          bilder: [
+            "media/03_Bild_1.jpg",
+            "media/03_Bild_2.jpg",
+            "media/03_Bild_3.jpg",
+            "media/03_Bild_4.jpg",
+          ],
+        },
+        "cloudy-vision": {
+          untertitel:
+            "Projektionsinstallation und Datenvisualisierung (2024 HSLU DFK BA DD+A)",
+          text: "Die Projektionsinstallation «Cloudy Vision» visualisiert den Einfluss soziodemografischer Merkmale auf das psychische Wohlbefinden der Schweizer Bevölkerung. Ein begehbares, datenbasiertes Netzwerk fungiert als Schaltfläche am Boden, welche das Bild an der Wand steuert. Die Betrachtenden können die Projektion verändern, indem sie durch die verschiedenen Faktoren und Jahre navigieren. Das daraus resultierende Licht- & Dunkelspiel widerspiegelt das emotionale Wetter.\n\nZusammenarbeit: Noelia Giger\n\nMentoren: Michael Flückiger, Max Frischknecht\n\nFoto 2/3/7/8 von Matthias Pfammatter",
+          bilder: [
+            "media/04_Bild_1.jpg",
+            "media/04_Bild_2.jpg",
+            "media/04_Bild_3.jpg",
+            "media/04_Bild_4.jpg",
+            "media/04_Bild_5.jpg",
+            "media/04_Bild_6.jpg",
+            "media/04_Bild_7.jpg",
+            "media/04_Bild_8.jpg",
+            "media/04_Bild_9.gif",
+            "media/04_Bild_10.gif",
+          ],
+        },
+        "art-dichte": {
+          untertitel: "Infografik (2022 HSLU DFK BA DD+A)",
+          text: "Die Zusammensetzung und Dichte eines Waldstücks ist abhängig von der geografischen Lage der untersuchten Fläche. Ein Hektar Waldfläche in der Zentralschweiz im Jahr 2015 weist ein höheres Vorkommen an Nadelbäumen auf, als jede andere Region in der Schweiz im selben Jahr. Das beeinflusst den Zuwachs, die Sterblichkeit sowie die Weiterverarbeitung der Bäume im erforschten Bereich.\n\nMentor:innen: Darjan Hil, Nicole Lachenmeier, Christian Schneider",
+          bilder: [
+            "media/05_Bild_1.gif",
+            "media/05_Bild_2.jpg",
+            "media/05_Bild_3.jpg",
+          ],
+        },
+        "alpines-wohnen": {
+          untertitel: "Siebdruck mit Illustration und Text (2023 HSLU DFK BA)",
+          text: "Andermatt kenne ich als Durchfahrtsort vom Gümmelen. Die Berge sind Freizeitpark und Erholungsgebiet. Ich schätze die Natur, die Stille und die Abgeschiedenheit. Ich habe ein Bild vom alpinen Leben. Es ist idyllisch, urtümlich, im Einklang mit der Natur und Kühe spielen eine grosse Rolle. Es gibt Käse und Fleisch, ich traue mich nicht nach Hafermilch zu fragen. Nicht einmal das anbringen der Landesflagge an jedem Haus finde ich sonderlich befremdlich. Es passt in meine romantisierte Vorstellung vom alpinen Wohnen, als Student in einem WG-Zimmer möglichst nahe am Kulturkuchen. \n\nBeim Spaziergang durch Andermatt fällt eine Tafel auf. Sie steht vor dem noch wachsenden gigantischen Hotelkomplex am Dorfrand. Aufgestellt von Andermatt Swiss Alps mit Grossinvestor Sawiris. «Eine Vision für alpines Wohnen» Golf und Luxus statt Wildheuen und Rösti. Im Herzen von Andermatt steht bereits das viele Sterne Hotel Chedi, inklusive Pool und Sushi-Restaurant. Bestellt wird auf Englisch, mein Budget reicht für einen einzigen Drink. Dieser kommt mit essbarer Wolke aus Zitruszeug. Es widersprich komplett meiner Vorstellung vom Wohnen in den Bergen. Das Feuer in der Bar ist künstlich, das WC grösser als meine Wohnung. Ich habe begonnen die Lokalsage mit dem Teufel der Brücken baut und Seelen fordert neu zu interpretieren. Profit ist der Teufel, das idyllische alpine Wohnen sein geforderter Tribut. Kapitalismuskritik an einem Ort an dem in meiner Vorstellung Kühe die Hauptrolle spielen. \n\nDorfbewohnende haben mir erzählt wie Wohnen in Andermatt ist und ob es einen Teufel gibt. Man arrangiert sich mit dem «neuen Teil», besucht wird dieses künstliche alpenchic Zentrum kaum. Auf denen von ihnen gezeichneten Karten ist dieser «neue Teil» ein anonymer Kreis. Ein Kreis der aber zu Andermatt gehört und der wichtig ist für das Leben und beleben vom «alten Teil». Mein Produkt wurde keine Kritik sondern eine Selbstreflexion. Meine trübe Vorstellung von Subarus und Landwirtschaft wird ergänzt durch eine fremde Vision. Eine Vision die in Andermatt längst in den Alltag integriert wurde. Subarus und Porsches parkieren nebeneinander. Das ist die alpine Realität in Andermatt.",
+          bilder: [
+            "media/06_Bild_1.jpg",
+            "media/06_Bild_2.jpg",
+            "media/06_Bild_3.jpg",
+            "media/06_Bild_4.jpg",
+            "media/06_Bild_5.jpg",
+            "media/06_Bild_6.jpg",
+            "media/06_Bild_7.jpg",
+            "media/06_Bild_8.jpg",
+            "media/06_Bild_9.jpg",
+            "media/06_Bild_10.jpg",
+            "media/06_Bild_11.jpg",
+            "media/06_Bild_12.jpg",
+            "media/06_Bild_13.jpg",
+          ],
+        },
+        "sei-kein-jein": {
+          untertitel:
+            "Infografik und Dateninstallation (2024 HSLU DFK BA DD+A)",
+          text: "Diese Datenvisualisierung untersucht die Stimmverteilung bei eidgenössischen Volksabstimmungen. Durch die Berücksichtigung der ständigen Wohnbevölkerung der Schweiz wird die Stimmbeteiligung in den Kontext der Gesamtbevölkerung gestellt. Dabei zeigt sich, dass eine «schweigende» Gruppe nicht an den Abstimmungen teilnimmt und eine weitere «stumme» Gruppe nicht teilnehmen darf. Dies soll Fragen zur Repräsentativität der Abstimmungsergebnisse aufwerfen und einen Einblick in die Geschichte der direkten Demokratie geben.\n\nMentorin: Fabienne Burri",
+          bilder: [
+            "media/07_Bild_1.jpg",
+            "media/07_Bild_2.jpg",
+            "media/07_Bild_3.jpg",
+            "media/07_Bild_4.jpg",
+            "media/07_Bild_5.jpg",
+            "media/07_Bild_6.jpg",
+            "media/07_Bild_7.jpg",
+            "media/07_Bild_8.jpg",
+          ],
+        },
+        handball: {
+          untertitel: "Digitales Plakat (2023 HSLU DFK BA DD+A)",
+          text: "Jeden Montag, mit dem ersten Kaffe, schaue ich mir auf handball.ch die Spielerstatistiken vom Wochenende an. Meine eigene Schussauswertung, die der kommenden Gegenspieler sowie die meiner Freunde in den unterschiedlichen Ligen. Die Daten sind sehr individuell und geben Aufschluss über die persönliche Entwicklung innerhalb des Sports, im Laufe einer (Amateur-)Karriere. Die gesamte Visualisierung wird in der zeitlichen Abfolge und der Position aus den Daten generiert. Ein Spielfeld das von vergangenen Spielen bespielt wird. Es entsteht ein Eindruck, wie viel Zeit ich in einer Sporthalle verbrachte und in welchem Teil der Saison ich erfolgreich Tore schiessen konnte.\n\nMentor:innen: Fabienne Burri, Cybu Richli, Oliver Aemisegger",
+          bilder: ["media/08_Bild_1.gif"],
+        },
+        textilrevue: {
+          untertitel:
+            "Layoutdesign und Soft-Redesign 2021 (2018–2021 NZZ Fachmedien später CH Media)",
+          text: "Die Textilrevue war eine Schweizer Fachzeitschrift für Mode und Textilwirtschaft. Als Grafiker begann die Mitarbeit mit der Umsetzung redaktioneller Layouts und entwickelte sich zur grafischen Hauptverantwortung des Magazins. Neben der visuellen Betreuung, Bildbearbeitung und Weiterentwicklung des Erscheinungsbilds gehörten auch die Abstimmung mit der Produktion und die Druckdatenaufbereitung zu den zentralen Aufgaben. 2021 entstand im Rahmen eines Soft-Redesigns ein neues Layoutsystem, das Typografie, Bildsprache und Struktur modernisierte – bei gleichbleibender redaktioneller Identität.",
+          bilder: [
+            "media/09_Bild_1.jpg",
+            "media/09_Bild_2.jpg",
+            "media/09_Bild_3.jpg",
+            "media/09_Bild_4.jpg",
+            "media/09_Bild_5.jpg",
+            "media/09_Bild_6.jpg",
+            "media/09_Bild_7.jpg",
+          ],
+        },
+        "simpel-things": {
+          untertitel: "Ilustration, Logo und Experimente",
+          text: "Eine Auswahl von Illustrationen mit Logocharakter. Im Zentrum steht die Frage, wie viel Ausdruck in wenigen Linien, Flächen und Proportionen liegen kann. Die Arbeiten bewegen sich an der Grenze zwischen Zeichen, Symbol und Form – dort, wo Wiedererkennbarkeit und Abstraktion ineinander übergehen. Eine Sammlung sehr visueller Arbeiten, die Klarheit und Einfachheit als gestalterisches Prinzip versteht – teils als Auftragsarbeiten, teils als freie Experimente.",
+          bilder: [
+            "media/10_Bild_1.jpg",
+            "media/10_Bild_2.jpg",
+            "media/10_Bild_3.jpg",
+            "media/10_Bild_4.jpg",
+            "media/10_Bild_5.jpg",
+            "media/10_Bild_6.jpg",
+            "media/10_Bild_7.jpg",
+            "media/10_Bild_8.jpg",
+            "media/10_Bild_9.jpg",
+            "media/10_Bild_10.jpg",
+            "media/10_Bild_11.jpg",
+            "media/10_Bild_12.jpg",
+          ],
+        },
+        corporate: {
+          untertitel:
+            "Layoutdesign, Redesigns und Weiterentwicklung bestehender Corporate Designs. (2018–2022 NZZ Fachmedien später CH Media)",
+          text: "Gestaltung und Umsetzung verschiedener Corporate Magazine und Publikationen, darunter Planer+Installateur, Goldene Spenglerarbeit, NHK und TR Kollektionen. Die gestalterische Arbeit erfolgte teils in Weiterführung bestehender Corporate Designs, teils als Neuentwicklung eigener Gestaltungssysteme. Der Aufgabenbereich umfasste Layout, Bildbearbeitung, Druckdatenaufbereitung und Abstimmung mit der Produktion. Zentrale Aspekte waren die enge Kundeneinbindung sowie die Zusammenarbeit mit unterschiedlichen Redaktionsteams aus verschiedenen Branchen, deren Inhalte in eine präzise, mediengerechte Gestaltung übersetzt wurden.",
+          bilder: [
+            "media/11_Bild_1.jpg",
+            "media/11_Bild_2.jpg",
+            "media/11_Bild_3.jpg",
+            "media/11_Bild_4.jpg",
+            "media/11_Bild_5.jpg",
+            "media/11_Bild_6.jpg",
+          ],
+        },
+        wohnrevue: {
+          untertitel:
+            "Layoutdesign und Weiterentwicklung des bestehenden Corporate Designs (2018–2022 NZZ Fachmedien später CH Media)",
+          text: "Die Wohnrevue ist ein Schweizer Magazin für Interior Design und Wohnkultur. Das bestehende Corporate Design wurde übernommen und im laufenden Produktionsprozess gepflegt und angepasst. Die grafische Arbeit umfasste die Umsetzung redaktioneller Layouts, die Integration des Gestaltungsprozesses in ein Redaktionssystem sowie Bildbearbeitung und Produktionsaufbereitung. Im Verlauf der Tätigkeit ging die grafische Hauptverantwortung des Magazins vollständig in eigene Hände über – bei kontinuierlicher Weiterentwicklung innerhalb des bestehenden Layoutsystems.",
+          bilder: [
+            "media/12_Bild_1.jpg",
+            "media/12_Bild_2.jpg",
+            "media/12_Bild_3.jpg",
+            "media/12_Bild_4.jpg",
+            "media/12_Bild_5.jpg",
+            "media/12_Bild_6.jpg",
+            "media/12_Bild_7.jpg",
+          ],
+        },
+      };
+
+      function showSection(id) {
+        const all = document.querySelectorAll(".section");
+        const detail = document.getElementById("projekt-detail");
+        if (id === "projekt-detail") {
+          all.forEach((s) => s.classList.add("hidden"));
+          detail.classList.remove("hidden");
+        } else {
+          all.forEach((s) => s.classList.remove("hidden"));
+          detail.classList.add("hidden");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // 2) "timo baumann" -> Kontakt & Hover "info"
+        const nameLink = document.getElementById("nav-info");
+        const nameDefault = "timo baumann";
+        const nameHover = "kontakt";
+
+        function goToKontakt() {
+          const detail = document.getElementById("projekt-detail");
+          if (!detail.classList.contains("hidden")) showSection("projekte");
+
+          const target = document.getElementById("kontakt");
+          const navbarHeight = document.querySelector(".navbar").offsetHeight;
+          const rootStyles = getComputedStyle(document.documentElement);
+          const rem = parseFloat(rootStyles.fontSize);
+          const rowH = parseFloat(rootStyles.getPropertyValue("--row-h")) * rem;
+
+          const offsetTop =
+            target.getBoundingClientRect().top +
+            window.pageYOffset -
+            navbarHeight +
+            2 * rowH;
+
+          const maxTop =
+            document.documentElement.scrollHeight - window.innerHeight;
+          window.scrollTo({
+            top: Math.min(offsetTop, maxTop),
+            behavior: "auto",
+          });
+        }
+
+        if (nameLink) {
+          // NEU: unten → nach oben, sonst → Kontakt
+          nameLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            const doc = document.documentElement;
+            const atBottom =
+              window.innerHeight + window.scrollY >= doc.scrollHeight - 1; // ±1px Toleranz
+
+            if (atBottom) {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              goToKontakt(); // deine bestehende Funktion
+            }
+          });
+        }
+
+        // 4) Hover-Name in Navbar
+        const navProjektName = document.getElementById("projekt-name-nav");
+        const projektNameFixed = document.getElementById("projekt-name-fixed");
+
+        // 5) Karten: Hover & Klick -> Detail
+        let lastProjectScrollY = 0;
+        document.querySelectorAll("#projekte .projekt-item").forEach((item) => {
+          const projektId = item.dataset.id;
+          const titel = item.dataset.title;
+
+          item.addEventListener("mouseenter", () => {
+            if (
+              document.getElementById("projekte").classList.contains("hidden")
+            )
+              return;
+            projektNameFixed.textContent = titel;
+            projektNameFixed.style.opacity = "1";
+          });
+
+          item.addEventListener("mouseleave", () => {
+            if (
+              document
+                .getElementById("projekt-detail")
+                .classList.contains("hidden")
+            ) {
+              projektNameFixed.textContent = "";
+              projektNameFixed.style.opacity = "0";
+            }
+          });
+
+          item.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Speichere aktuelle Scrollposition
+            lastProjectScrollY = window.scrollY;
+            projektNameFixed.textContent = titel;
+            navProjektName.textContent = "";
+
+            const daten = projektDaten[projektId];
+            const container = document.getElementById("projekt-inhalt");
+            const detailTitel = titel || projektId;
+
+            if (!daten) {
+              container.innerHTML = `<p>Keine Details verfügbar.</p>`;
+              showSection("projekt-detail");
+              return;
+            }
+
+            const bilder = Array.isArray(daten.bilder) ? daten.bilder : [];
+            let idx = 0;
+            // detail counter element in navbar
+            const detailCounter = document.getElementById("detail-counter");
+
+            container.innerHTML = `
+              <div class="detail-viewport">
+                <img id="detail-img" src="${
+                  bilder[0] || ""
+                }" alt="${detailTitel} Bild 1" loading="lazy" />
+                ${
+                  bilder.length > 1
+                    ? `
+                      <div class="detail-hit left"></div>
+                      <div class="detail-hit right"></div>
+                      <button class="detail-nav detail-prev" aria-label="Vorheriges Bild">
+                        <svg viewBox="0 0 51 45.4" xmlns="http://www.w3.org/2000/svg">
+                          <polyline fill="none" stroke="#000" stroke-width="6" points="23.9 3 4.2 22.7 23.9 42.4"/>
+                          <line fill="none" stroke="#000" stroke-width="6" x1="7.4" y1="22.7" x2="51" y2="22.7"/>
+                        </svg>
+                      </button>
+                      <button class="detail-nav detail-next" aria-label="Nächstes Bild">
+                        <svg viewBox="0 0 51 45.4" xmlns="http://www.w3.org/2000/svg">
+                          <polyline fill="none" stroke="#000" stroke-width="6" points="27.1 3 46.8 22.7 27.1 42.4"/>
+                          <line fill="none" stroke="#000" stroke-width="6" x1="43.6" y1="22.7" x2="0" y2="22.7"/>
+                        </svg>
+                      </button>
+                    `
+                    : ``
+                }
+              </div>
+
+              <div class="detail-scroll">
+                <div class="detail-bottom">
+                  <div class="detail-row" id="detail-subtitle">${
+                    daten.untertitel || ""
+                  }</div>
+                </div>
+              </div>
+            `;
+
+            document.getElementById("detail-subtitle").textContent =
+              daten.untertitel || "";
+
+            if (daten.text?.trim()) {
+              const scroll = container.querySelector(".detail-scroll");
+
+              // Text in Absätze aufteilen (Doppel-Line-Breaks)
+              const paragraphs = daten.text
+                .trim()
+                .split(/\n\s*\n/)
+                .filter((p) => p.trim())
+                .map((p) => `<p>${p.trim()}</p>`)
+                .join("");
+
+              scroll.insertAdjacentHTML(
+                "beforeend",
+                `<div class="detail-text">${paragraphs}</div>`
+              );
+            }
+
+            // Karussell
+            const viewport = container.querySelector(".detail-viewport");
+            const imgEl = document.getElementById("detail-img");
+
+            function show(n) {
+              if (!bilder.length) return;
+              idx = (n + bilder.length) % bilder.length;
+              imgEl.src = bilder[idx];
+              imgEl.alt = `${detailTitel} Bild ${idx + 1}`;
+              // update counter (1-based)
+              if (detailCounter) {
+                detailCounter.textContent = `${idx + 1}/${bilder.length}`;
+                detailCounter.style.display = "inline-block";
+              }
+            }
+
+            if (bilder.length > 1) {
+              viewport.style.cursor = "pointer";
+
+              // Touch-Swipe-Unterstützung
+              let startX = 0;
+              let startY = 0;
+              let isDragging = false;
+
+              viewport.addEventListener(
+                "touchstart",
+                (e) => {
+                  startX = e.touches[0].clientX;
+                  startY = e.touches[0].clientY;
+                  isDragging = false;
+                },
+                { passive: true }
+              );
+
+              viewport.addEventListener(
+                "touchmove",
+                (e) => {
+                  if (!startX || !startY) return;
+
+                  const currentX = e.touches[0].clientX;
+                  const currentY = e.touches[0].clientY;
+
+                  const diffX = Math.abs(currentX - startX);
+                  const diffY = Math.abs(currentY - startY);
+
+                  // Horizontal swipe wenn X-Bewegung größer als Y-Bewegung
+                  if (diffX > diffY && diffX > 30) {
+                    isDragging = true;
+                    e.preventDefault(); // Verhindert Scrollen während Swipe
+                  }
+                },
+                { passive: false }
+              );
+
+              viewport.addEventListener(
+                "touchend",
+                (e) => {
+                  if (!isDragging || !startX) return;
+
+                  const endX = e.changedTouches[0].clientX;
+                  const diffX = startX - endX;
+
+                  // Swipe threshold: mindestens 50px Bewegung
+                  if (Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                      // Swipe left -> nächstes Bild
+                      show(idx + 1);
+                    } else {
+                      // Swipe right -> vorheriges Bild
+                      show(idx - 1);
+                    }
+                  }
+
+                  startX = 0;
+                  startY = 0;
+                  isDragging = false;
+                },
+                { passive: true }
+              );
+
+              // Desktop: Click-Navigation
+              viewport.addEventListener("click", (ev) => {
+                if (isDragging) return; // Verhindert Click nach Swipe
+
+                const r = viewport.getBoundingClientRect();
+                const x = ev.clientX - r.left;
+                if (x < r.width / 2) show(idx - 1);
+                else show(idx + 1);
+              });
+
+              container
+                .querySelector(".detail-prev")
+                ?.addEventListener("click", (ev) => {
+                  ev.stopPropagation();
+                  show(idx - 1);
+                });
+              container
+                .querySelector(".detail-next")
+                ?.addEventListener("click", (ev) => {
+                  ev.stopPropagation();
+                  show(idx + 1);
+                });
+
+              if (window._detailKeyHandler) {
+                document.removeEventListener(
+                  "keydown",
+                  window._detailKeyHandler
+                );
+              }
+              window._detailKeyHandler = (ev) => {
+                if (
+                  document
+                    .getElementById("projekt-detail")
+                    .classList.contains("hidden")
+                )
+                  return;
+                if (ev.key === "ArrowLeft") show(idx - 1);
+                if (ev.key === "ArrowRight") show(idx + 1);
+              };
+              document.addEventListener("keydown", window._detailKeyHandler);
+            }
+            // initial counter setup even if single image
+            if (detailCounter) {
+              detailCounter.textContent = `${1}/${Math.max(1, bilder.length)}`;
+              detailCounter.style.display = "inline-block";
+            }
+
+            show(0);
+            window.scrollTo({ top: 0, behavior: "auto" });
+            showSection("projekt-detail"); // -> X wird unten sichtbar gemacht
+          });
+        });
+
+        /* ==== NAVBAR-X: Logik ==== */
+        const closeBtn = document.getElementById("close-detail");
+
+        function closeDetailToOverview() {
+          showSection("projekte");
+          // Scrolle zurück zur letzten Projektposition, falls vorhanden
+          if (
+            typeof lastProjectScrollY === "number" &&
+            lastProjectScrollY > 0
+          ) {
+            window.scrollTo({ top: lastProjectScrollY, behavior: "auto" });
+          }
+          document.getElementById("projekt-name-fixed").textContent = "";
+          document.getElementById("projekt-name-fixed").style.opacity = "0";
+          const navProjektName = document.getElementById("projekt-name-nav");
+          if (navProjektName) navProjektName.textContent = "";
+        }
+
+        closeBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          closeDetailToOverview();
+        });
+
+        document.addEventListener("keydown", (ev) => {
+          const detailVisible = !document
+            .getElementById("projekt-detail")
+            .classList.contains("hidden");
+          if (detailVisible && ev.key === "Escape") closeDetailToOverview();
+        });
+
+        // showSection erweitern: X + detail counter nur in Detailansicht
+        const _origShowSection = showSection;
+        window.showSection = function (id) {
+          _origShowSection(id);
+          const detailVisible = id === "projekt-detail";
+          closeBtn.style.display = detailVisible ? "inline-flex" : "none";
+          // toggle detail counter visibility
+          const detailCounter = document.getElementById("detail-counter");
+          if (detailCounter) {
+            detailCounter.style.display = detailVisible
+              ? "inline-flex"
+              : "none";
+          }
+        };
+      });
+    </script>
+    <script>
+      (function () {
+        const nameLink = document.getElementById("nav-info");
+        const detailEl = document.getElementById("projekt-detail");
+
+        function atAbsoluteBottom() {
+          const doc = document.documentElement;
+          return window.innerHeight + window.scrollY >= doc.scrollHeight - 1; // ±1px Toleranz
+        }
+
+        function detailVisible() {
+          return detailEl && !detailEl.classList.contains("hidden");
+        }
+
+        function updateNameState() {
+          if (!nameLink) return;
+
+          // Kontakt gilt als "visible" wenn die Kontakt-Section im Viewport
+          // ist oder die Seite ganz unten (bottom) ist. Früher wurde nur die
+          // hidden-Klasse geprüft, das führte dazu, dass Kontakt immer als
+          // sichtbar galt (Sections sind standardmässig nicht hidden).
+          const kontaktEl = document.getElementById("kontakt");
+          const kontaktInView = (function () {
+            if (!kontaktEl) return false;
+            const r = kontaktEl.getBoundingClientRect();
+            const visibleHeight =
+              Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+            const total = r.height || kontaktEl.offsetHeight || 1;
+            // require at least 60% of the section to be visible to be considered "visible"
+            return visibleHeight / total >= 0.6;
+          })();
+          const atBottom =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 1;
+          const kontaktVisible = kontaktInView || atBottom;
+
+          if (detailVisible()) {
+            // Detail: Projekt-Titel sichtbar, kein Hover, nicht klickbar
+            const projFixed = document.getElementById("projekt-name-fixed");
+            const title =
+              projFixed && projFixed.textContent.trim()
+                ? projFixed.textContent.trim()
+                : "Projekt";
+            nameLink.textContent = title;
+            nameLink.removeAttribute("data-hover");
+            nameLink.classList.add("no-hover");
+            // remove href to avoid navigation while in detail
+            if (nameLink.hasAttribute("href")) {
+              nameLink.dataset._href = nameLink.getAttribute("href");
+              nameLink.removeAttribute("href");
+            }
+            return;
+          }
+
+          // Wenn Kontakt sichtbar: sichtbar = information, Hover = timo baumann
+          if (kontaktVisible) {
+            nameLink.textContent = "Information";
+            nameLink.setAttribute("data-hover", "timo baumann");
+            nameLink.classList.remove("no-hover");
+            // restore href if previously removed
+            if (!nameLink.hasAttribute("href") && nameLink.dataset._href) {
+              nameLink.setAttribute("href", nameLink.dataset._href);
+            }
+            return;
+          }
+
+          // Default überall sonst: sichtbar = timo baumann, Hover = information
+          nameLink.textContent = "timo baumann";
+          nameLink.setAttribute("data-hover", "Information");
+          nameLink.classList.remove("no-hover");
+          if (!nameLink.hasAttribute("href") && nameLink.dataset._href) {
+            nameLink.setAttribute("href", nameLink.dataset._href);
+          }
+        }
+
+        // Events
+        window.addEventListener("scroll", updateNameState, { passive: true });
+        window.addEventListener("resize", updateNameState);
+        document.addEventListener("DOMContentLoaded", updateNameState);
+
+        // Falls dein Code showSection nutzt, dort auch nachziehen:
+        const _origShowSection = window.showSection;
+        if (typeof _origShowSection === "function") {
+          window.showSection = function (id) {
+            _origShowSection(id);
+            updateNameState();
+          };
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        const nameLink = document.getElementById("nav-info");
+        if (!nameLink) return;
+
+        function measureTextWidth(text) {
+          const probe = document.createElement("span");
+          probe.textContent = text;
+          probe.style.position = "absolute";
+          probe.style.visibility = "hidden";
+          probe.style.whiteSpace = "nowrap";
+          // gleiche Schrift wie im Link
+          const cs = getComputedStyle(nameLink);
+          probe.style.font = cs.font;
+          document.body.appendChild(probe);
+          const w = probe.offsetWidth;
+          document.body.removeChild(probe);
+          return w;
+        }
+
+        function updateMinWidth() {
+          // längerer der beiden Zustände ist „timo baumann“
+          const w = measureTextWidth("timo baumann");
+          // plus kleiner Puffer (2px)
+          nameLink.style.minWidth = w + 2 + "px";
+        }
+
+        // initial + bei Resize/Font-Ladeereignis
+        document.addEventListener("DOMContentLoaded", updateMinWidth);
+        window.addEventListener("resize", updateMinWidth);
+        // falls Webfont später kommt
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(updateMinWidth);
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        const nameLink = document.getElementById("nav-info");
+        if (!nameLink) return;
+
+        function measureTextWidth(text) {
+          const probe = document.createElement("span");
+          probe.textContent = text;
+          probe.style.position = "absolute";
+          probe.style.visibility = "hidden";
+          probe.style.whiteSpace = "nowrap";
+          // exakt gleiche Typo verwenden
+          const cs = getComputedStyle(nameLink);
+          probe.style.font = cs.font;
+          document.body.appendChild(probe);
+          const w = probe.offsetWidth;
+          document.body.removeChild(probe);
+          return w;
+        }
+
+        function num(x) {
+          return parseFloat(x) || 0;
+        }
+
+        function updateMinWidth() {
+          const cs = getComputedStyle(nameLink);
+          const pad =
+            num(cs.paddingLeft) +
+            num(cs.paddingRight) +
+            num(cs.borderLeftWidth) +
+            num(cs.borderRightWidth);
+          const w1 = measureTextWidth("timo baumann");
+          const w2 = measureTextWidth("Information");
+          // nimm den längeren + Padding + kleiner Puffer
+          nameLink.style.minWidth = Math.max(w1, w2) + pad + 4 + "px";
+        }
+
+        document.addEventListener("DOMContentLoaded", updateMinWidth);
+        window.addEventListener("resize", updateMinWidth);
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(updateMinWidth);
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        const img = document.querySelector(".hero-title-img");
+        const caption = document.querySelector(".hero-caption");
+        const navbar = document.querySelector(".navbar");
+        if (!img || !caption || !navbar) return;
+
+        let natW = 0,
+          natH = 0;
+
+        function haveNaturalSize() {
+          if (natW && natH) return true;
+          if (img.naturalWidth && img.naturalHeight) {
+            natW = img.naturalWidth;
+            natH = img.naturalHeight;
+            return true;
+          }
+          return false;
+        }
+        function update() {
+          if (!haveNaturalSize()) return;
+
+          const navBottom = navbar.getBoundingClientRect().bottom;
+          const capRect = caption.getBoundingClientRect();
+          const capTop = capRect.top;
+
+          // Höhe des weißen Balkens (var(--row-h)) als px aus :root holen:
+          const cs = getComputedStyle(document.documentElement);
+          const rowH = parseFloat(cs.getPropertyValue("--row-h")) || 0;
+
+          // WICHTIG: bis die UNTERKANTE der Caption unter die Navbar rutscht
+          const capBottom = capTop + rowH;
+
+          // "Abstand" = Unterkante Caption bis Unterkante Navbar
+          const gap = capBottom - navBottom; // kann bis < 0 gehen
+
+          // Breite (ohne scale) und natürliche Bildhöhe:
+          const availW = img.getBoundingClientRect().width;
+          const unscaledH = natH * (availW / natW);
+
+          // Benötigte vertikale Skalierung:
+          let scaleY = unscaledH ? gap / unscaledH : 1;
+
+          // Klammern: nicht negativ werden lassen
+          if (scaleY < 0) scaleY = 0;
+
+          img.style.transform = `scaleY(${scaleY})`;
+
+          // ausblenden sobald die Unterkante der Caption unter der Navbar ist
+          img.style.opacity = gap <= 0.5 ? 0 : 1; // kleines Epsilon gegen Flackern
+        }
+
+        function ready() {
+          if (img.complete && img.naturalWidth) update();
+          else img.addEventListener("load", update, { once: true });
+          update();
+        }
+
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        document.addEventListener("DOMContentLoaded", ready);
+      })();
+    </script>
+
+    <!-- Lazy Loading Enhancement Script -->
+    <script>
+      (function () {
+        // Lazy Loading Fallback für ältere Browser
+        if (!("loading" in HTMLImageElement.prototype)) {
+          // Intersection Observer für Lazy Loading Fallback
+          const imageObserver = new IntersectionObserver(
+            (entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const img = entry.target;
+                  img.src = img.dataset.src || img.src;
+                  img.classList.add("loaded");
+                  observer.unobserve(img);
+                }
+              });
+            }
+          );
+
+          // Alle lazy loading Bilder beobachten
+          document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+            imageObserver.observe(img);
+          });
+        } else {
+          // Native Lazy Loading Support - nur Fade-in Effekt hinzufügen
+          document.addEventListener("DOMContentLoaded", () => {
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+
+            lazyImages.forEach((img) => {
+              if (img.complete) {
+                img.classList.add("loaded");
+              } else {
+                img.addEventListener(
+                  "load",
+                  () => {
+                    img.classList.add("loaded");
+                  },
+                  { once: true }
+                );
+              }
+            });
+          });
+        }
+
+        // Performance Monitoring für Lazy Loading
+        if ("performance" in window && "PerformanceObserver" in window) {
+          try {
+            const observer = new PerformanceObserver((list) => {
+              list.getEntries().forEach((entry) => {
+                if (entry.entryType === "largest-contentful-paint") {
+                  console.log("LCP:", entry.startTime + "ms");
+                }
+              });
+            });
+            observer.observe({ entryTypes: ["largest-contentful-paint"] });
+          } catch (e) {
+            // Fallback wenn PerformanceObserver nicht unterstützt wird
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

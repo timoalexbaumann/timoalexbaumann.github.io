@@ -1,0 +1,1074 @@
+/* Navbar-Pfeil Animation */
+.navbar-arrow {
+  display: block;
+  height: 1.2rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.navbar-arrow.rotate {
+  transform: rotate(180deg);
+}
+/*# Bereichs- und Hilfsklassen für Sichtbarkeit und Layout */
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.hidden {
+  display: none;
+}
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+/* Außenlinien für das Grid */
+.projekt-grid {
+  position: relative;
+}
+.projekt-grid::before,
+.projekt-grid::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  z-index: 30;
+}
+/* Linke Linie */
+.projekt-grid::after {
+  top: 0;
+  left: 0;
+  width: var(--tile-border-width);
+  height: 100%;
+}
+/* Rechte Linie */
+.projekt-grid {
+  border-right: var(--tile-border-width) solid #fff;
+  border-bottom: var(--tile-border-width) solid #fff;
+}
+/* ===================================================== Reset & Grundwerte ===================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  /* Fonts & Typo */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --titel-fontsize: 1rem;
+  --navbar-fontsize: 1rem;
+  /* Spacing & Maße */
+  --edge-gap: 0.6rem;
+  --col-gap: 0.6rem;
+  --row-h: 2rem;
+  --navbar-h: 2rem;
+  --outer-gap: var(--navbar-h);
+  --cols: 2;
+  --col-w: calc(
+    (100vw - (2 * var(--edge-gap)) - ((var(--cols) - 1) * var(--col-gap))) /
+      var(--cols)
+  );
+  --tile-h: calc(var(--col-w) * 4 / 3);
+  /* Theming Linien */
+  --line-color: #ffffff;
+  --tile-border-width: 2px;
+  --grid-cols: 3;
+  /* Trennlinien für Grid-Kacheln */
+  .projekt-item {
+    position: relative;
+  }
+  .projekt-item::before,
+  .projekt-item::after {
+    content: "";
+    position: absolute;
+    background: var(--line-color);
+    z-index: 20;
+  }
+  /* Vertikale Linie außer in linker Spalte */
+  .projekt-item:not(:nth-child(3n + 1))::before {
+    top: 0;
+    left: 0;
+    width: var(--tile-border-width);
+    height: 100%;
+  }
+  /* Horizontale Linie außer in oberster Reihe */
+  .projekt-item:not(:nth-child(-n + 3))::after {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--tile-border-width);
+  }
+  /* Detail-Typo & Feintuning */
+  --detail-text-size: 1rem;
+  --detail-text-lh: 1.2;
+}
+html,
+body {
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
+@supports (overflow-x: clip) {
+  body {
+    overflow-x: clip;
+  }
+}
+body {
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.45;
+  font-synthesis: none;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================= Navbar ========================= */
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--navbar-h);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  padding: 0 var(--outer-gap);
+  background: #fff;
+  border-bottom: 0;
+  box-shadow: none;
+  z-index: 1000; /* final value */
+}
+.navbar-spacer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--navbar-h);
+  background: transparent;
+  z-index: 50;
+  pointer-events: none;
+}
+.nav-left {
+  grid-column: 1/2;
+  justify-self: start;
+  position: relative;
+  overflow: visible;
+}
+.nav-center {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--navbar-h);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+/* Tablet und Desktop Optimierungen */
+@media (min-width: 768px) {
+  .nav-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Größere Abstände für Desktop */
+  :root {
+    --outer-gap: 2rem;
+    --edge-gap: 0.6rem;
+    --col-gap: 0.6rem;
+  }
+
+  /* Desktop: präzisere Navigation */
+  .detail-nav {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  /* Desktop: Hover-Effekte aktivieren */
+  .projekt-item .projekt-titel {
+    opacity: 0;
+  }
+
+  .projekt-item:hover .projekt-titel,
+  .projekt-item:focus-within .projekt-titel {
+    opacity: 1;
+  }
+}
+.nav-left a,
+.nav-center a,
+.nav-right a {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: var(--navbar-fontsize);
+}
+.nav-left a {
+  padding-left: 0.5rem;
+}
+.nav-left a:hover,
+.nav-center a:hover,
+.nav-right a:hover,
+.nav-left a:focus-visible,
+.nav-center a:focus-visible,
+.nav-right a:focus-visible {
+  color: red;
+}
+.nav-projekte {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: var(--titel-fontsize);
+}
+#projekt-name-nav {
+  position: relative;
+  top: -0.05em;
+}
+
+/* NAV-Name / Hover-Layer (final consolidated)
+   - uses data-hover attribute for the hover text
+   - never wraps, hover layer fills link frame */
+#nav-info {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  line-height: var(--navbar-h);
+  height: var(--navbar-h);
+  overflow: visible;
+  padding-inline: 0.5rem 0.75rem;
+  z-index: 310;
+}
+#nav-info::after {
+  content: attr(data-hover);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  width: 100%;
+  padding-left: 0.5rem;
+  color: red; /* final color on reveal */
+  opacity: 0; /* hidden by default; revealed on hover */
+  transition: opacity 0.18s ease, color 0.12s ease;
+  z-index: 320;
+  pointer-events: none;
+}
+#nav-info:hover,
+#nav-info:focus-visible {
+  color: transparent;
+  text-decoration: none;
+}
+#nav-info:hover::after,
+#nav-info:focus-visible::after {
+  opacity: 1;
+  color: red;
+}
+@media (prefers-reduced-motion: reduce) {
+  #nav-info::after {
+    transition: none;
+  }
+}
+
+.nav-right {
+  position: absolute;
+  top: 0;
+  right: var(--outer-gap);
+  width: var(--outer-gap);
+  height: var(--navbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 301;
+}
+
+/* detail counter shown in navbar when a project is open */
+#detail-counter {
+  display: block;
+  position: fixed;
+  top: calc(var(--navbar-h) + 0.5rem); /* wie .projekt-titel padding-left */
+  left: calc(var(--outer-gap) + 0.5rem); /* wie .projekt-titel padding-left */
+  color: #000;
+  font-size: var(--titel-fontsize);
+  line-height: 1.2;
+  white-space: nowrap;
+  z-index: 1002;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+#close-detail {
+  width: calc(var(--navbar-h) - 0.8rem);
+  height: calc(var(--navbar-h) - 0.8rem);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  touch-action: manipulation;
+  z-index: 906; /* ensure the close X sits above the counter */
+}
+#close-detail svg rect {
+  display: none;
+}
+#close-detail:hover,
+#close-detail:focus-visible {
+  color: red;
+  outline: none;
+}
+#close-detail:active {
+  transform: scale(0.98);
+}
+@media (prefers-color-scheme: dark) {
+  #close-detail {
+    color: #fff;
+  }
+  #close-detail:hover,
+  #close-detail:focus-visible {
+    color: red;
+  }
+}
+
+/* ========================= Hero ========================= */
+.hero-box {
+  position: relative;
+  margin-top: var(--navbar-h);
+  height: calc(100vh - var(--navbar-h));
+  overflow: hidden;
+}
+.hero-image {
+  position: fixed;
+  inset: var(--navbar-h) 0 auto 0;
+  height: calc(100vh - var(--navbar-h));
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.hero-caption {
+  position: absolute;
+  bottom: 0;
+  height: var(--row-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: calc(var(--outer-gap) + 0.5rem) !important;
+  padding-right: calc(var(--outer-gap) + 0.5rem) !important;
+  font-size: var(--titel-fontsize);
+  background: #fff;
+  z-index: 800;
+}
+
+/* Wenn .no-hover gesetzt ist (z.B. Detailansicht), kein Hover-Pseudo zeigen */
+#nav-info.no-hover::after {
+  opacity: 0 !important;
+  display: none !important;
+}
+/* make the nav-info non-clickable in no-hover (detail) state */
+#nav-info.no-hover {
+  pointer-events: none !important;
+  color: red !important;
+}
+
+/* Titelbild (gestaucht) */
+.hero-title-img {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--navbar-h);
+  bottom: var(--row-h);
+  width: 100vw;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  transform-origin: top center;
+  z-index: 650;
+  pointer-events: none;
+  /* filter: brightness(0) invert(1); */
+}
+.hero-title-bg {
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  right: 0;
+  bottom: var(--row-h);
+  background: #bebebe;
+  z-index: 600;
+  pointer-events: none;
+}
+
+/* ========================= Projekt-Grid ========================= */
+#projekte {
+  background: #fff;
+  position: relative;
+  z-index: 700;
+}
+.projekt-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 0;
+  row-gap: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 700 !important;
+}
+
+/* Trennlinien zwischen allen Bildern (wie Rahmen, aber ohne Dopplung) */
+
+.projekt-item {
+  position: relative;
+  isolation: isolate;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.projekt-titel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  min-height: var(--row-h);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+  font-size: var(--titel-fontsize);
+  color: #ff0000;
+  background: #fff;
+  border: none;
+  border-top: var(--tile-border-width) solid var(--line-color);
+  box-sizing: border-box;
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+}
+
+.projekt-item:hover .projekt-titel,
+.projekt-item:focus-within .projekt-titel {
+  opacity: 1;
+  pointer-events: auto;
+}
+.projekt-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+.projekt-item::before,
+.projekt-item::after {
+  content: "";
+  position: absolute;
+  background: var(--line-color);
+  pointer-events: none;
+  z-index: 20;
+}
+/* Vertikale Linie links, außer in linker Spalte */
+.projekt-item:not(:nth-child(3n + 1))::before {
+  top: 0;
+  left: 0;
+  width: var(--tile-border-width);
+  height: 100%;
+}
+/* Horizontale Linie oben, außer in oberster Reihe */
+.projekt-item:not(:nth-child(-n + 3))::after {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--tile-border-width);
+}
+.detail-viewport {
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  right: 0;
+  height: calc(100vh - var(--navbar-h) - var(--row-h));
+  overflow: hidden;
+  z-index: 1;
+  background: #bebebe;
+}
+.detail-viewport.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--col-gap);
+}
+.detail-viewport img,
+.detail-viewport.duo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #bebebe;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: calc(var(--outer-gap) + 0.5rem);
+  padding-right: calc(var(--outer-gap) + 0.5rem);
+}
+.detail-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  height: 100%;
+  display: block;
+  z-index: 10;
+  border: none;
+  background: transparent;
+}
+.detail-hit.left {
+  left: 0;
+  cursor: default;
+}
+.detail-hit.right {
+  right: 0;
+  cursor: default;
+}
+
+.detail-nav {
+  position: fixed;
+  top: calc(var(--navbar-h) + 50vh - 0.6rem);
+  width: 1.2rem;
+  height: 1.2rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2000;
+  pointer-events: auto;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.18s;
+  transform: none;
+}
+.detail-prev {
+  left: calc((var(--outer-gap) + 0.5rem) / 3.25);
+  transform: scaleX(-1);
+}
+.detail-next {
+  right: calc((var(--outer-gap) + 0.5rem) / 3.25);
+}
+.detail-nav svg {
+  display: block;
+  height: 1.2rem;
+  width: auto;
+  margin: 0 auto;
+}
+.detail-hit.left:hover ~ .detail-prev {
+  opacity: 1;
+  pointer-events: auto;
+  color: red;
+}
+.detail-hit.right:hover ~ .detail-next {
+  opacity: 1;
+  pointer-events: auto;
+  color: red;
+}
+
+.detail-scroll {
+  position: relative;
+  z-index: 3;
+  background: transparent;
+  pointer-events: none;
+}
+.detail-bottom,
+.detail-text {
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--outer-gap) 0.6rem;
+  font-size: var(--titel-fontsize);
+  line-height: 1.45;
+  text-align: left;
+  position: relative;
+  background: #fff;
+}
+.detail-bottom {
+  display: block;
+  margin-top: calc(100vh - var(--row-h));
+  padding: 0 var(--outer-gap);
+}
+#projekt-detail .detail-bottom {
+  position: relative;
+}
+#projekt-detail .detail-bottom::before {
+  display: none;
+}
+#projekt-detail .detail-bottom::after {
+  display: none;
+}
+.detail-row {
+  display: flex;
+  align-items: center;
+  height: var(--row-h);
+  line-height: 1;
+  padding-left: 0.5rem;
+  font-size: var(--titel-fontsize);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: red;
+}
+
+/* Beschreibung: final state = white background, black text */
+#projekt-detail .detail-text {
+  position: relative;
+  margin-top: 0;
+  padding-top: calc((var(--row-h) - var(--titel-fontsize)) / 2);
+  padding-left: calc(var(--outer-gap) + 0.5rem);
+  padding-right: var(--outer-gap);
+  background: #fff;
+  color: #000;
+  font-size: var(--detail-text-size);
+  line-height: var(--detail-text-lh);
+}
+#projekt-detail .detail-text::before {
+  display: none;
+}
+#projekt-detail .detail-text p {
+  margin: 0;
+  text-indent: 1.5rem;
+  line-height: inherit;
+}
+#projekt-detail .detail-text > p:first-of-type {
+  text-indent: 0;
+}
+#projekt-detail .detail-text > *:first-child {
+  margin-top: 0 !important;
+}
+#projekt-detail .detail-text a {
+  color: #000;
+  text-decoration: none;
+}
+#projekt-detail .detail-text a:hover,
+#projekt-detail .detail-text a:focus-visible {
+  color: red;
+  text-decoration: none;
+}
+
+#projekt-detail .detail-bottom {
+  overflow: visible;
+  isolation: isolate;
+}
+#projekt-detail .detail-bottom::before,
+#projekt-detail .detail-bottom::after {
+  z-index: 1;
+}
+#projekt-detail .detail-bottom .detail-row {
+  position: relative;
+  z-index: 3;
+  height: var(--row-h);
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  color: red;
+}
+
+/* ========================= Footer (Kontakt) ========================= */
+.footer-portrait-kachel {
+  /* Portraitbild im Footer, immer am linken Bildschirmrand */
+  position: absolute;
+  left: 0 !important;
+  bottom: 0;
+  width: calc(100vw / 3);
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  z-index: 10;
+}
+.footer-about {
+  /* Container für Portrait und About-Text */
+  display: flex;
+  align-items: flex-start;
+}
+
+.projekt-footer {
+  /* Footer-Bereich unterhalb des Grids, für absolute Positionierung des Portraits */
+  margin-top: 0 !important;
+  padding: 0 !important;
+  background: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+#kontakt.projekt-footer {
+  /* Kontaktbereich: weißer Hintergrund am Seitenende */
+  position: relative;
+  background: #bebebe;
+  z-index: 701;
+}
+
+#kontakt .footer-grid {
+  /* Grid-Container für About-Text und Mail-Zeile */
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--row-h));
+  z-index: 650;
+  padding: 0 !important;
+  overflow-x: visible;
+}
+
+#kontakt .footer-about .about-inner {
+  position: absolute;
+  left: var(--outer-gap);
+  top: 0.6rem;
+  width: calc(100vw - 3rem);
+  padding-left: 0.5rem;
+  margin-left: 0;
+  padding-right: var(--edge-gap);
+  font-size: calc(var(--navbar-fontsize) * 1.5);
+  line-height: 1.35;
+  color: #000;
+  text-align: left;
+}
+
+#kontakt .footer-about .about-inner-left {
+  position: absolute;
+  left: var(--outer-gap);
+  top: 0.6rem;
+  width: calc(50vw - 5rem);
+  padding-left: var(--edge-gap);
+
+  margin-left: 0;
+  padding-right: 0;
+  font-size: var(--navbar-fontsize);
+  line-height: 1.35;
+  color: #fff;
+  text-align: left;
+}
+/* About-Text: beginnt mit linker Kante bei Seitenmitte */
+
+#kontakt.projekt-footer::after,
+#kontakt .footer-grid::before {
+  display: none;
+}
+/* Verhindert doppelte Trennlinien im Kontaktbereich */
+#kontakt.projekt-footer::after,
+#kontakt .footer-grid::before {
+  display: none;
+}
+#kontakt .footer-portrait {
+  display: block;
+}
+
+#kontakt .footer-about {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  z-index: 660;
+  background: transparent;
+  color: #000;
+}
+/* About-Container im Kontaktbereich: Flex-Layout für Text und Bild */
+#kontakt .footer-about {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  z-index: 660;
+  background: transparent;
+  color: #000;
+}
+#kontakt .footer-about a {
+  color: inherit;
+  text-decoration: none;
+}
+#kontakt .footer-about a:hover,
+#kontakt .footer-about a:focus-visible {
+  color: red;
+  text-decoration: underline;
+}
+/* Links im About-Text: Standard und Hover */
+.about-line {
+  /* Einzelne Zeile im About-Text */
+  font-size: var(--titel-fontsize);
+  line-height: 1.25;
+}
+
+#kontakt .footer-caption {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--row-h);
+  height: var(--row-h);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding-left: calc(var(--outer-gap) + 0.5rem);
+  font-size: var(--titel-fontsize);
+  color: #000;
+  z-index: 9999;
+}
+/* Mail-Zeile im Kontaktbereich: bleibt immer unten sichtbar */
+#kontakt .footer-caption {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--row-h);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding-left: calc(var(--outer-gap) + 0.5rem);
+  font-size: var(--titel-fontsize);
+  color: #000;
+  z-index: 9999;
+}
+
+#kontakt .footer-caption a {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+
+/* Hover-Effekt für Kontakt-Link: E-Mail beim Hover anzeigen */
+.contact-link {
+  position: relative;
+  display: inline-block;
+}
+
+.contact-link::after {
+  content: attr(data-email);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: red;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+  background: #fff;
+}
+
+.contact-link:hover {
+  color: transparent;
+}
+
+.contact-link:hover::after {
+  opacity: 1;
+}
+
+#kontakt .footer-caption a:hover,
+#kontakt .footer-caption a:focus-visible {
+  color: red;
+  text-decoration: none;
+}
+/* Link in der Mail-Zeile: Standard und Hover */
+
+#kontakt {
+  min-height: calc(100vh - var(--navbar-h) - var(--row-h));
+  color: #000;
+  background: #bebebe;
+}
+/* Kontaktbereich: Grundfarbe und Mindesthöhe */
+#kontakt {
+  min-height: calc(100vh - var(--navbar-h) - var(--row-h));
+  color: #000;
+  background: #bebebe;
+}
+#kontakt .footer-about .about-inner p {
+  margin: 0 !important;
+  font-weight: 400;
+  font-size: inherit;
+}
+
+/* Einrückung für nachfolgende Absätze */
+#kontakt .footer-about .about-inner p + p {
+  text-indent: 2.6em;
+}
+
+/* ========================= Misc / Layering final adjustments ========================= */
+.hero-image {
+  z-index: -1 !important;
+}
+.hero-title-img {
+  z-index: 650 !important;
+}
+.hero-lines {
+  z-index: 950 !important;
+}
+
+/* When contact is visible: hide hero bg */
+body.hide-hero-bg .hero-title-bg {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.detail-prev svg {
+  transform: scaleX(-1);
+}
+
+/* ========================= Mobile Optimierungen ========================= */
+
+/* Mobile: kleinere Abstände und größere Touch-Targets */
+@media (max-width: 767px) {
+  /* Kleinere Abstände für Mobile */
+  :root {
+    --outer-gap: 1.5rem;
+    --edge-gap: 0.4rem;
+    --col-gap: 0.4rem;
+    --navbar-h: 2.5rem; /* etwas höhere Navbar für bessere Touch-Bedienung */
+    --row-h: 2.5rem;
+  }
+
+  /* Größere Touch-Targets für Navigation */
+  .detail-nav {
+    width: 2rem;
+    height: 2rem;
+    top: calc(var(--navbar-h) + 50vh - 1rem);
+  }
+
+  .detail-nav svg {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  /* Größeres Close-Button für Touch */
+  #close-detail {
+    width: calc(var(--navbar-h) - 0.5rem);
+    height: calc(var(--navbar-h) - 0.5rem);
+    min-height: 2rem;
+    min-width: 2rem;
+  }
+
+  /* Mobile: bessere Lesbarkeit für Counter */
+  #detail-counter {
+    font-size: 1.1rem;
+    top: calc(var(--navbar-h) + 0.7rem);
+    left: calc(var(--outer-gap) + 0.7rem);
+  }
+
+  /* Mobile: optimierte Projekt-Titel */
+  .projekt-titel {
+    font-size: 0.9rem;
+    padding-left: 0.4rem;
+    min-height: calc(var(--row-h) - 0.2rem);
+  }
+
+  /* Mobile: bessere Kontakt-Sektion */
+  .footer-about {
+    padding-left: calc(var(--outer-gap) + 0.5rem);
+    padding-right: calc(var(--outer-gap) + 0.5rem);
+  }
+
+  .about-inner p {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+  }
+
+  /* Mobile: optimierte Hero-Caption */
+  .hero-caption {
+    padding-left: var(--outer-gap);
+    padding-right: var(--outer-gap);
+    font-size: 0.9rem;
+  }
+
+  /* Mobile: bessere Navbar-Links */
+  .nav-left a,
+  .nav-right a {
+    padding: 0.5rem 0;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Sehr kleine Bildschirme (Smartphones im Hochformat) */
+@media (max-width: 480px) {
+  :root {
+    --outer-gap: 1rem;
+    --edge-gap: 0.3rem;
+    --col-gap: 0.3rem;
+  }
+
+  /* Noch kleinere Hero-Schrift für sehr kleine Bildschirme */
+  .hero-title {
+    font-size: 20vw !important;
+  }
+
+  /* Kompaktere Abstände */
+  #detail-counter {
+    font-size: 1rem;
+    top: calc(var(--navbar-h) + 0.5rem);
+    left: calc(var(--outer-gap) + 0.5rem);
+  }
+
+  .projekt-titel {
+    font-size: 0.8rem;
+    padding-left: 0.3rem;
+  }
+
+  .hero-caption {
+    font-size: 0.8rem;
+  }
+}
+
+/* Touch-optimierte Hover-Effekte */
+@media (hover: none) and (pointer: coarse) {
+  /* Auf Touch-Geräten: Hover-Effekte durch Tap ersetzen */
+  .projekt-item .projekt-titel {
+    opacity: 1; /* Titel immer sichtbar auf Touch-Geräten */
+  }
+
+  /* Contact-Link Hover-Effekt für Touch optimieren */
+  .contact-link::after {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .contact-link:active::after {
+    opacity: 1;
+  }
+}
+
+/* ========================= Lazy Loading Optimierungen ========================= */
+
+/* Sanftes Erscheinen von lazy-loaded Bildern */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+img[loading="lazy"].loaded,
+img[loading="lazy"]:not([loading]) {
+  opacity: 1;
+}
+
+/* Placeholder für lazy-loading Bilder */
+.projekt-item {
+  background: #f5f5f5;
+}
+
+.projekt-item img {
+  background: #f5f5f5;
+}
+
+/* Loading-Indikator für Detail-Bilder */
+.detail-viewport img {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.detail-viewport img:not([src]),
+.detail-viewport img[src=""] {
+  opacity: 0;
+}
+
+/* Fallback für Browser ohne Lazy Loading Support */
+@supports not (loading: lazy) {
+  img[loading="lazy"] {
+    opacity: 1;
+  }
+}
