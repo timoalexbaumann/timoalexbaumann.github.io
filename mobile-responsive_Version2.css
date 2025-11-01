@@ -1,0 +1,84 @@
+/* Mobile-spezifische Overrides
+   - kleinere Kontakt-Textgröße
+   - alle Pfeile ausblenden (mobil)
+   - Projekt-Grid: 1 Kachel pro Reihe
+   - Bilder responsive
+*/
+
+@media (max-width: 767px) {
+  /* 1) Kontakttext kleiner */
+  .footer-about .about-inner p,
+  .footer-about .about-inner p + p {
+    font-size: 0.9rem; /* anpassen falls noch kleiner gewünscht */
+    line-height: 1.4;
+  }
+
+  /* 2) Projekt-Grid: nur noch 1 Kachel nebeneinander */
+  .projekt-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: auto;
+    gap: 1rem !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .projekt-item {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .projekt-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* 3) Pfeile und Navigationselemente ausblenden (mobil),
+     Scrollen im Viewport bleibt erhalten. */
+  /* Navbar-Pfeil */
+  .navbar-arrow {
+    display: none !important;
+  }
+
+  /* Footer arrow / mail arrow */
+  .caption-arrow,
+  .mail-arrow {
+    display: none !important;
+  }
+
+  /* Detail-Ansicht: Prev/Next-Buttons und versteckte Trefferzonen */
+  .detail-nav,
+  .detail-hit {
+    display: none !important;
+  }
+
+  /* Falls irgendwo inline-Arrow-SVGs genutzt werden, Zielklassen zusätzlich */
+  .detail-prev,
+  .detail-next,
+  .detail-prev svg,
+  .detail-next svg {
+    display: none !important;
+  }
+
+  /* Close-Button bleibt sichtbar: gezielte Ausnahme (ID bleibt sichtbar)
+     Sicherstellen, dass wir #close-detail nicht ausblenden. */
+  #close-detail {
+    display: inline-flex !important;
+  }
+
+  /* Optional: kleine Anpassungen für Hero-Titel auf sehr kleinen Bildschirmen */
+  .hero-title {
+    font-size: 20vw !important;
+  }
+
+  @media (max-width: 420px) {
+    .footer-about .about-inner p {
+      font-size: 0.85rem;
+    }
+    .hero-title {
+      font-size: 18vw !important;
+    }
+  }
+}
